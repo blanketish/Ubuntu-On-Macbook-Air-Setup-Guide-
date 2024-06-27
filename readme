@@ -1,0 +1,139 @@
+SETTING UP UBUNTU ON MACBOOK AIR (For Everyone) 
+
+check out this guide as it is a good guide to do once you get ubuntu out of the box. 
+Covers installing restricted codecs, necessary packages, flathub, etc. 
+https://kskroyal.com/ubuntu-24-04-post-install-steps/
+
+PERSONAL SETUP 
+
+1) INSTALL KEYD (linux system wide keyboard remapper) AND APPLY CUSTOM CONFIG
+
+            - Left Control key will function as the Super/Windows key
+            - Left Command key will function as the Left Control key
+            - Left Option key will function as the Alt key
+            - Caps Lock will function as Control when held and Escape when tapped
+            - The Escape key will function as Caps Lock
+
+Custom keyd terms: 
+            - Command key is referred to as "meta"
+            - Option key is referred to as "alt"
+
+STEPS TO INSTALLING: 
+
+a. Install keyd using the PPA provided. 
+   ```
+   sudo add-apt-repository ppa:keyd-team/ppa
+   sudo apt update
+   sudo apt install keyd
+   ```
+
+b. Start and enable keyd:
+   ```
+   sudo systemctl enable keyd
+   sudo systemctl start keyd
+   ```
+
+c. Create a configuration file:
+   Create a new file at `/etc/keyd/default.conf` using a text editor with sudo privileges. For example:
+   ```
+   sudo nano /etc/keyd/default.conf
+   ```
+
+d. Add the following configuration to the file:
+
+   ```
+   [ids]
+
+   *
+
+   [main]
+
+   # Remap left control to super (Windows key)
+   leftcontrol = layer(super)
+
+   # Remap left command to left control
+   leftmeta = layer(control)
+
+   # Remap left option to alt
+   leftalt = layer(alt)
+
+   # Remap capslock to control when held, escape when tapped
+   capslock = overload(control, esc)
+
+   # Remap escape to capslock
+   esc = capslock
+   ```
+
+2) Install facetimehd driver support: 
+
+1. Open a terminal.
+
+2. Clone the firmware repository:
+   ```
+   git clone https://github.com/patjak/facetimehd-firmware.git
+   ```
+
+3. Change into the cloned directory:
+   ```
+   cd facetimehd-firmware
+   ```
+
+4. Run make as root to extract the firmware:
+   ```
+   sudo make
+   ```
+
+5. Install the firmware:
+   ```
+   sudo make install
+   ```
+
+6. Clone the driver repository:
+   ```
+   git clone https://github.com/patjak/bcwc_pcie.git
+   ```
+
+7. Change into the driver directory:
+   ```
+   cd bcwc_pcie
+   ```
+
+8. Build the kernel module:
+   ```
+   make
+   ```
+
+9. Install the kernel module:
+   ```
+   sudo make install
+   ```
+
+10. Run depmod to update module dependencies:
+    ```
+    sudo depmod
+    ```
+
+11. Load the kernel module:
+    ```
+    sudo modprobe facetimehd
+    ```
+
+12. Reboot your system to ensure all changes take effect:
+    ```
+    sudo reboot
+    ```
+
+After rebooting, your FaceTime HD camera should be working. You can test it using a application like Cheese or by running:
+```
+mplayer tv://
+```
+
+If you encounter any issues with Cheese showing a corrupted image, try changing the resolution in Cheese settings to a lower value, then turn your computer off and on again (not just reboot).
+
+Since you're using Wayland on Ubuntu 24.04, most applications should work fine with the camera. However, if you encounter any issues, you may need to use Wayland-compatible applications or switch to an X11 session for testing.
+
+Would you like me to explain or elaborate on any part of these instructions?
+
+-------- ADD MY FAVORITE CUSTOM KEYBOARD SHORTCUTS -----------------  
+
+
